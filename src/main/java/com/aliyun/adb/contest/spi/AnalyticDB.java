@@ -14,7 +14,7 @@ public interface AnalyticDB {
      * @param tpchDataFileDir A read-only directory
      * @param workspaceDir A directory for players to use
      */
-    void load(String tpchDataFileDir, String workspaceDir);
+    void load(String tpchDataFileDir, String workspaceDir) throws Exception;
 
 
     /**
@@ -29,6 +29,6 @@ public interface AnalyticDB {
      * @param percentile [0, 1.0], such as 0.25, 0.125
      * @return A string representing the answer
      */
-    String quantile(String table, String column, double percentile);
+    String quantile(String table, String column, double percentile) throws Exception;
 
 }
