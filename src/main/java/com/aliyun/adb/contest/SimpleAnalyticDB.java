@@ -44,6 +44,8 @@ public class SimpleAnalyticDB implements AnalyticDB {
         String ans = values.get(rank).toString();
 
         System.out.println("Query:" + table + ", " + column + ", " + percentile + " Answer:" + rank + ", " + ans);
+
+        return ans;
     }
 
     private void loadInMemroy(File dataFile) throws IOException {
