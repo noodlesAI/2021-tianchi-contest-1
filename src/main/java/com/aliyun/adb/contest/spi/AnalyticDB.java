@@ -22,7 +22,9 @@ public interface AnalyticDB {
      * Quantile definition:
      *
      * Consider a table T which contains a column C in it. C contains five values {1, 2, 3, 4, 5}.
-     * quantile(T, C, 0.2) = values[ceil(5*0.2)-1] = values[0] = 1
+     * quantile(T, C, 0.2) = values[5*0.2-1] = values[0] = 1
+     *
+     * We make sure that the result (percentile*values.length) is an integer.
      *
      * @param table TPC-H table
      * @param column A column that belong to this table.

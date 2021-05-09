@@ -33,7 +33,6 @@ public class SimpleAnalyticDB implements AnalyticDB {
 
     @Override
     public String quantile(String table, String column, double percentile) throws Exception {
-        System.out.println("Query " + table + ", " + column + ", " + percentile);
 
         List<Long> values = data.get(tableColumnKey(table, column));
 
@@ -41,9 +40,10 @@ public class SimpleAnalyticDB implements AnalyticDB {
             throw new IllegalArgumentException();
         }
 
-        int rank = (int) Math.ceil(values.size() * percentile);
+        int rank = (int) Math.round(values.size() * percentile);
+        String ans = values.get(rank).toString();
 
-        return values.get(rank).toString();
+        System.out.println("Query:" + table + ", " + column + ", " + percentile + " Answer:" + rank + ", " + ans);
     }
 
     private void loadInMemroy(File dataFile) throws IOException {
