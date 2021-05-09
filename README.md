@@ -36,6 +36,7 @@ L_ORDERKEY,L_PARTKEY
 # 依赖 & 编译说明
 - 目前只允许使用标准库，不能引入外部依赖
 - 不要修改 maven 的`pom.xml`文件，可能会导致编译失败
+- 不要修改`AnalyticDB`接口文件，可能会导致编译失败  
 - 提交代码前请运行`mvn clean package -DskipTests`，确保能编译通过
 
 # 参赛注意事项
