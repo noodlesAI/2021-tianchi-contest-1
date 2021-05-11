@@ -26,6 +26,11 @@ public class SimpleAnalyticDB implements AnalyticDB {
 
         for (File dataFile : dir.listFiles()) {
             System.out.println("Start loading table " + dataFile.getName());
+
+            // You can write data to workspaceDir
+            File yourDataFile = new File(workspaceDir, dataFile.getName());
+            yourDataFile.createNewFile();
+
             loadInMemroy(dataFile);
         }
 
