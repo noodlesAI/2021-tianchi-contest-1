@@ -3,25 +3,45 @@
 
 
 # 测试环境说明
-选手代码运行在 docker 内，docker CPU 限制4核。每台物理机上同时只会跑一个选手 docker，避免互相干扰。
-docker 内存容量确保 docker 内系统能正常运行，选手使用内存受 JVM 配置限制。测试数据放在 SSD 上，
-选手还有一块 SSD 可以用来存储自己生成的数据文件。
+选手代码运行在容器内，容器 CPU 限制 **4核**。每台物理机上同时只会跑一个选手程序，避免互相干扰。
+容器内存容量确保容器内系统能正常运行，选手使用内存受 JVM 配置限制。测试数据放在 pmem 上，同时
+选手还有一块 pmem 可以用来存储选手生成的数据文件。
 
-JVM 版本
+### JVM 版本
 ```
 openjdk version "1.8.0_292"
 OpenJDK Runtime Environment (build 1.8.0_292-b10)
 OpenJDK 64-Bit Server VM (build 25.292-b10, mixed mode)
 ```
 
-JVM 参数
+### JVM 参数
 ```
  -Xmx4g -Xms4g -XX:MaxDirectMemorySize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled
 ```
 
+### 磁盘性能(测试数据和提供给选手使用的磁盘规格一致)
+
+随机读
+```
+fio --name=rand_read_test -filename=**** -ioengine=sync -iodepth=1 -thread -numjobs=8 direct=1 -rw=randread -bs=64k -size=32g -runtime=60
+
+Run status group 0 (all jobs):
+   READ: bw=17.0GiB/s (18.3GB/s), 2179MiB/s-2291MiB/s (2285MB/s-2403MB/s), io=256GiB (275GB), run=14301-15036msec
+```
+
+顺序写
+```
+fio --name=write_test -filename=**** -ioengine=sync -iodepth=1 -thread -numjobs=8 -direct=1 -rw=write -bs=64k -size=32g -runtime=60
+
+Run status group 0 (all jobs):
+  WRITE: bw=2025MiB/s (2123MB/s), 200MiB/s-356MiB/s (209MB/s-373MB/s), io=119GiB (127GB), run=60001-60001msec
+
+```
+
+测试数据不是极限性能
+
 # 测试数据说明
-测试数据放在 SSD 磁盘上。初赛只有一张表 lineitem，只有两列 L_ORDERKEY 和 L_PARTKEY，类型均为 bigint，
-数据量3亿行。 格式如下：
+初赛只有一张表 lineitem，只有两列 L_ORDERKEY 和 L_PARTKEY，类型均为 bigint， 数据量3亿行。 格式如下：
 ```
 L_ORDERKEY,L_PARTKEY
 2876385239627262908,3426163450417145920
