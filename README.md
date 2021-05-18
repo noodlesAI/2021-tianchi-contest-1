@@ -38,7 +38,7 @@ Run status group 0 (all jobs):
 
 ```
 
-测试数据不是极限性能
+上面的测试压力，磁盘没有打满。主要为了给选手一个大致参考，在测评资源限制条件下，大致能达到的性能。
 
 # 测试数据说明
 初赛只有一张表 lineitem，只有两列 L_ORDERKEY 和 L_PARTKEY，类型均为 bigint。
