@@ -21,27 +21,6 @@ OpenJDK 64-Bit Server VM (build 25.292-b10, mixed mode)
  -Xmx4g -Xms4g -XX:MaxDirectMemorySize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled
 ```
 
-### 磁盘性能(测试数据和提供给选手使用的磁盘规格一致)
-
-随机读
-```
-fio --name=rand_read_test -filename=**** -ioengine=sync -iodepth=1 -thread -numjobs=8 direct=1 -rw=randread -bs=64k -size=32g -runtime=60
-
-Run status group 0 (all jobs):
-   READ: bw=17.0GiB/s (18.3GB/s), 2179MiB/s-2291MiB/s (2285MB/s-2403MB/s), io=256GiB (275GB), run=14301-15036msec
-```
-
-顺序写
-```
-fio --name=write_test -filename=**** -ioengine=sync -iodepth=1 -thread -numjobs=8 -direct=1 -rw=write -bs=64k -size=32g -runtime=60
-
-Run status group 0 (all jobs):
-  WRITE: bw=2025MiB/s (2123MB/s), 200MiB/s-356MiB/s (209MB/s-373MB/s), io=119GiB (127GB), run=60001-60001msec
-
-```
-
-上面的测试压力，磁盘没有打满。主要为了给选手一个大致参考，在测评资源限制条件下，大致能达到的性能。
-
 # 测试数据说明
 初赛只有一张表 lineitem，只有两列 L_ORDERKEY 和 L_PARTKEY，类型均为 bigint。
 数据量3亿行， 格式如下：
@@ -78,8 +57,16 @@ L_ORDERKEY,L_PARTKEY
 - 不要将自己生成的测试数据文件，提交到自己的代码库，可能会因为拉取代码时间过久而超时
 - 不要打印过多日志，否则可能因为打过多日志而超时，日志只会截取10M上传
 - 添加`analyticdb_support`为你项目的 reporter，确保测评程序有权限拉你的取代码。
-- 直接复制`analyticdb_support`账号名，可能不会弹出账号搜索结果，可以尝试手动输入。手动输入完`analyticdb`，然后停下，即可搜到。
 - 不要将自己的项目设置为 public 在比赛期间
 - 提交代码路径格式，必须是git格式地址，形如：git@code.aliyun.com:xxx/xxx.git  
 - 任何恶意或者作弊行为会被永久禁赛
 
+# 常见问题
+1. 超时运行之后，看不到自动打的日志？
+   
+    超时运行后，选手程序会被立即杀死，程序不是正常退出。有些日志虽然是超时前打出来的，但是可能还在内存里，可以尝试调用`System.out.flush()`
+    试试。
+   
+2. 搜索不到`analyticdb_support`账号?
+   
+   直接复制`analyticdb_support`账号名，可能不会弹出账号搜索结果，可以尝试手动输入。手动输入完`analyticdb`，然后停下，即可搜到。
