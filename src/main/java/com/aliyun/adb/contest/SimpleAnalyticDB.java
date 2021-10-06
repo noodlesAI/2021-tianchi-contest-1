@@ -3,10 +3,7 @@ package com.aliyun.adb.contest;
 import com.aliyun.adb.contest.spi.AnalyticDB;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SimpleAnalyticDB implements AnalyticDB {
 
@@ -71,10 +68,12 @@ public class SimpleAnalyticDB implements AnalyticDB {
             }
         }
 
-        data.forEach((tableColumn, values) -> {
-            values.sort(Long::compareTo);
+        for (Map.Entry<String, List<Long>> entry : data.entrySet()) {
+            String tableColumn = entry.getKey();
+            List<Long> values = entry.getValue();
+            values.sort(Comparator.naturalOrder());
             System.out.println("Finish loading column " + tableColumn);
-        });
+        }
 
     }
 

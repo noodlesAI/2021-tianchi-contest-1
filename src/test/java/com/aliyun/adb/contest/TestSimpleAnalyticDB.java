@@ -11,6 +11,7 @@ public class TestSimpleAnalyticDB {
 
     @Test
     public void testCorrectness() throws Exception {
+        long startTime = System.currentTimeMillis();    //获取开始时间
         File testDataDir = new File("./test_data");
         File testWorkspaceDir = new File("./target");
         File testResultsFile = new File("./test_result/results");
@@ -18,7 +19,8 @@ public class TestSimpleAnalyticDB {
 
         // Step #1: load data
         analyticDB.load(testDataDir.getAbsolutePath(), testWorkspaceDir.getAbsolutePath());
-
+        long endTime = System.currentTimeMillis();    //获取结束时间
+        System.out.println("程序运行时间：" + (endTime - startTime) + "ms");    //输出程序运行时间
         // Step #2: test quantile function
         try (BufferedReader resReader = new BufferedReader(new FileReader(testResultsFile))) {
             String line;
@@ -33,6 +35,9 @@ public class TestSimpleAnalyticDB {
                 Assert.assertEquals(answer, analyticDB.quantile(table, column, percentile));
             }
         }
-    }
+
+
+        }
+
 
 }
